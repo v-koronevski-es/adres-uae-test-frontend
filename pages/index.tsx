@@ -45,7 +45,7 @@ type HomeProps = {
   data: Log[];
 };
 
-const getDefaultFiltersValue = (filterState:  FilterColumn[]) => {
+const getDefaultFiltersValue = (filterState: FilterColumn[]) => {
   return {};
 };
 
