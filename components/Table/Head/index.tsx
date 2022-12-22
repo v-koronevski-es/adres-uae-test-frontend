@@ -28,7 +28,13 @@ export const renderSortArrows = (active: boolean, order: 'asc' | 'desc') => {
   }
 };
 
-const Head = <Row extends unknown>({ columns, order, orderBy, setOrder, setOrderBy }: HeadProps<Row>) => {
+const Head = <Row extends { [key: string]: any }>({
+  columns,
+  order,
+  orderBy,
+  setOrder,
+  setOrderBy,
+}: HeadProps<Row>) => {
   const handleOrder = (ord: 'asc' | 'desc', ordBy: string) => {
     setOrder(ord);
     setOrderBy(ordBy);

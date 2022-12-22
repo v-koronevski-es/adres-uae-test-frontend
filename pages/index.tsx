@@ -1,4 +1,4 @@
-import { useState } from 'react' 
+import { useState } from 'react';
 import type { NextPage } from 'next';
 
 import { getList } from 'lib/api/logger';
@@ -40,7 +40,11 @@ const columnsConfig: Column<any>[] = [
   },
 ];
 
-const Home: NextPage = ({ data }: { data: Log[] }) => {
+type HomeProps = {
+  data: Log[];
+};
+
+const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
   const [filtersState, setFiltersState] = useState([] as FilterColumn[]);
 
   return (

@@ -7,7 +7,7 @@ import Pagination from './Pagination';
 import * as S from './styles';
 
 export type Column<Row> = {
-  accessor?: string;
+  accessor: string;
   accessorFn?: (row: Row) => string;
   title: string;
   sortable?: boolean;

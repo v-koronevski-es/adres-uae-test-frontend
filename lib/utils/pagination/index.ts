@@ -1,4 +1,3 @@
-
 import { PaginationButton } from 'lib/types/table';
 
 export const getPaginationButtons = (pagesCount: number, page: number): PaginationButton[] => {
@@ -37,19 +36,19 @@ export const getPaginationButtons = (pagesCount: number, page: number): Paginati
     },
   ];
 
-  if (pagesCount <= 7 ) {
-    return Array.from(Array(pagesCount).keys()).map((index) => {
+  if (pagesCount <= 7) {
+    return Array.from(Array(pagesCount).keys()).map(index => {
       if (page === index) {
         return {
           label: index + 1,
           key: `${index + 1}`,
-        }
+        };
       }
       return {
         label: index + 1,
         key: `${index + 1}`,
-        goTo: index
-      }
+        goTo: index,
+      };
     });
   }
 

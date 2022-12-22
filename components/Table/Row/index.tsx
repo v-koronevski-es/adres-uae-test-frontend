@@ -7,7 +7,7 @@ export type RowProps<Row> = {
   row: Row;
 };
 
-const Row = <Row extends unknown>({ columns, row }: RowProps<Row>) => {
+const Row = <Row extends { [key: string]: any }>({ columns, row }: RowProps<Row>) => {
   return (
     <S.Row>
       {columns.map(column => (

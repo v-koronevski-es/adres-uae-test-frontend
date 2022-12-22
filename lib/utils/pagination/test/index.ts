@@ -1,3 +1,5 @@
+import { describe, expect, it } from '@jest/globals';
+
 import { getPaginationButtons } from '../index';
 
 describe('Pagination utilits', () => {
@@ -35,12 +37,12 @@ describe('Pagination utilits', () => {
       expect(buttons[2]).toEqual({
         label: 50,
         goTo: 49,
-        key: '50' 
+        key: '50',
       });
       expect(buttons[3]).toEqual({
         label: 'next',
         goTo: 1,
-        key: 'next'
+        key: 'next',
       });
     });
 
@@ -49,21 +51,21 @@ describe('Pagination utilits', () => {
 
       expect(buttons[0]).toEqual({
         goTo: 48,
-        key: "previous",
-        label: "previous",
+        key: 'previous',
+        label: 'previous',
       });
       expect(buttons[1]).toEqual({
         label: 1,
         key: '1',
-        goTo: 0
+        goTo: 0,
       });
       expect(buttons[2]).toEqual({
         label: '...',
-        key: 'dots-start' 
+        key: 'dots-start',
       });
       expect(buttons[3]).toEqual({
         label: 50,
-        key: '50'
+        key: '50',
       });
     });
 
@@ -72,38 +74,38 @@ describe('Pagination utilits', () => {
 
       expect(buttons[0]).toEqual({
         goTo: 47,
-        key: "previous",
-        label: "previous",
+        key: 'previous',
+        label: 'previous',
       });
       expect(buttons[1]).toEqual({
         label: 1,
         key: '1',
-        goTo: 0
+        goTo: 0,
       });
       expect(buttons[2]).toEqual({
         label: '...',
-        key: 'dots-start' 
+        key: 'dots-start',
       });
       expect(buttons[3]).toEqual({
         label: 49,
-        key: '49'
+        key: '49',
       });
       expect(buttons[4]).toEqual({
         label: 50,
         goTo: 49,
-        key: '50'
+        key: '50',
       });
       expect(buttons[5]).toEqual({
         label: 'next',
         goTo: 49,
-        key: 'next'
+        key: 'next',
       });
     });
 
     it('should correct handle small cout of pages', async () => {
       const buttons = getPaginationButtons(7, 1);
 
-      expect(buttons.length).toEqual(7)
+      expect(buttons.length).toEqual(7);
     });
   });
 });

@@ -12,7 +12,6 @@ export type PaginationProps = {
   setRowsPerPage: (page: number) => void;
 };
 
-
 const Pagination = ({ total, page, rowsPerPage, setPage, setRowsPerPage }: PaginationProps) => {
   const [pagesCount, setPagesCount] = useState(4); //Math.ceil(total / rowsPerPage));
 
