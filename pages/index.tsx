@@ -44,12 +44,6 @@ type HomeProps = {
   data: Log[];
 };
 
-export type FilterColumn = {
-  columnAccessor: string;
-  filterValue: any;
-  isFullMatchFilter?: boolean;
-};
-
 const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
   const [filtersState, setFiltersState] = useState([] as FilterColumn[]);
 
