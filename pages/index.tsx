@@ -45,11 +45,17 @@ type HomeProps = {
   data: Log[];
 };
 
+const getDefaultFiltersValue = (filterState:  FilterColumn[]) => {
+  return {};
+};
+
 const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
   const router = useRouter();
   const [filtersState, setFiltersState] = useState(
-    (JSON.parse(router.query.filters as string) || []) as FilterColumn[],
+    (JSON.parse((router.query.filters || '[]') as string) || []) as FilterColumn[],
   );
+
+  const filterDefaultValue = getDefaultFiltersValue(JSON.parse((router.query.filters || '[]') as string));
 
   const handleFilterSubmit = (args: FormData) => {
     const filters = [] as FilterColumn[];
@@ -87,7 +93,7 @@ const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
   return (
     <>
       <div>
-        <FiltersForm onSubmit={handleFilterSubmit} />
+        <FiltersForm onSubmit={handleFilterSubmit} defaultValues={filterDefaultValue} />
         <Table rows={data} columns={columnsConfig} filters={filtersState} />
       </div>
     </>

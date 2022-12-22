@@ -17,14 +17,15 @@ export type FormData = {
 
 export type Props = {
   onSubmit: (arg: any) => void;
+  defaultValues: FormData;
 };
 
-const FiltersForm = ({ onSubmit }: Props): JSX.Element => {
+const FiltersForm = ({ onSubmit, defaultValues }: Props): JSX.Element => {
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<FormData>({ defaultValues: {} });
+  } = useForm<FormData>({ defaultValues });
 
   return (
     <S.FormWrapper onSubmit={handleSubmit(onSubmit)}>
@@ -41,7 +42,8 @@ const FiltersForm = ({ onSubmit }: Props): JSX.Element => {
       <Input register={register} name="selectDate" error={errors.selectDate} label="Select Date" type="text" />
       <Input register={register} name="toDate" error={errors.selectDate} label="To Date" type="text" />
       <Input register={register} name="applicationId" error={errors.applicationId} label="To Date" type="text" />
-      <button type="submit">Search Logger</button>
+      <S.Button type="submit">Search Logger</S.Button>
+      <S.Button onClick={() => onSubmit({})}>Clear</S.Button>
     </S.FormWrapper>
   );
 };

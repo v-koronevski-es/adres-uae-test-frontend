@@ -9,7 +9,10 @@ export const Row = styled.div`
 `;
 
 export const ButtonBlock = styled.div`
-  padding: 5px;
+  padding: 7px;
+  margin: 2px;
   width: auto;
   cursor: pointer;
+  background-color: ${({ isActive }: { isActive: boolean }) => (!isActive ? '#ffffff' : '#e2e9f3')};
+  border-radius: 2px;
 `;

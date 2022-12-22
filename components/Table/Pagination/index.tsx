@@ -24,6 +24,7 @@ const Pagination = ({ total, page, rowsPerPage, setPage, setRowsPerPage }: Pagin
       {getPaginationButtons(pagesCount, page).map(button => (
         <S.ButtonBlock
           key={button.key}
+          isActive={button.label === page + 1}
           onClick={() => (button.goTo || button.goTo === 0 ? setPage(button.goTo) : null)}
         >
           {button.label}
