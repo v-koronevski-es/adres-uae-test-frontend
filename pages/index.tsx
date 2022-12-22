@@ -5,7 +5,7 @@ import { getList } from 'lib/api/logger';
 import { Log } from 'lib/types/logger';
 
 import Table, { Column, FilterColumn } from 'components/Table';
-import FiltersForm from 'components/LoggerTableFilters';
+import FiltersForm, { FormData } from 'components/LoggerTableFilters';
 
 const columnsConfig: Column<any>[] = [
   {
@@ -44,14 +44,53 @@ type HomeProps = {
   data: Log[];
 };
 
+export type FilterColumn = {
+  columnAccessor: string;
+  filterValue: any;
+  isFullMatchFilter?: boolean;
+};
+
 const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
   const [filtersState, setFiltersState] = useState([] as FilterColumn[]);
+
+  const handleFilterSubmit = (args: FormData) => {
+    const filters = [] as FilterColumn[];
+    if (args.logId) {
+      filters.push({
+        filterValue: args.logId,
+        columnAccessor: 'logId',
+      });
+    }
+
+    if (args.actionType) {
+      filters.push({
+        filterValue: args.actionType,
+        columnAccessor: 'actionType',
+      });
+    }
+
+    if (args.applicationType) {
+      filters.push({
+        filterValue: args.applicationType,
+        columnAccessor: 'applicationType',
+      });
+    }
+
+    if (args.applicationType) {
+      filters.push({
+        filterValue: args.applicationType,
+        columnAccessor: 'applicationType',
+      });
+    }
+
+    setFiltersState(filters);
+  };
 
   return (
     <>
       <div>
-        <FiltersForm onSubmit={args => console.log(args)} />
-        <Table rows={data} columns={columnsConfig} />
+        <FiltersForm onSubmit={handleFilterSubmit} />
+        <Table rows={data} columns={columnsConfig} filters={filtersState} />
       </div>
     </>
   );

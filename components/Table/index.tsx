@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 
+import { sortData } from 'lib/utils/sort';
 import Head from './Head';
 import Row from './Row';
 import Pagination from './Pagination';
@@ -8,7 +9,6 @@ import * as S from './styles';
 
 export type Column<Row> = {
   accessor: string;
-  accessorFn?: (row: Row) => string;
   title: string;
   sortable?: boolean;
 };
@@ -25,39 +25,6 @@ export type FilterColumn = {
   isFullMatchFilter?: boolean;
 };
 
-const sortData = <Row extends { [key: string]: any }>(
-  order: 'asc' | 'desc',
-  orderBy: string,
-  rows: Row[],
-  orderFn?: (rowA: Row, rowB: Row) => 0 | 1 | -1,
-): Row[] => {
-  if (!orderBy) {
-    return rows;
-  }
-
-  const sorted = [
-    ...rows.sort((a, b) => {
-      if (orderFn) {
-        return order === 'asc' ? orderFn(a, b) : orderFn(a, b) * -1;
-      } else if (typeof a[orderBy] === 'string') {
-        if (a[orderBy] < b[orderBy]) {
-          return order === 'asc' ? -1 : 1;
-        }
-        if (a[orderBy] > b[orderBy]) {
-          return order === 'asc' ? 1 : -1;
-        }
-        return 0;
-      } else if (typeof a[orderBy] === 'number') {
-        return order === 'asc' ? a[orderBy] - b[orderBy] : (a[orderBy] - b[orderBy]) * -1;
-      }
-
-      return 0;
-    }),
-  ];
-
-  return sorted;
-};
-
 const filterData = <Row extends { [key: string]: any }>(filterState: FilterColumn[], rows: Row[]): Row[] => {
   return rows.filter(row => {
     let accept = true;
@@ -68,7 +35,7 @@ const filterData = <Row extends { [key: string]: any }>(filterState: FilterColum
           accept = false;
         }
       } else {
-        if (!JSON.stringify(row[filterColumn.columnAccessor]).includes(JSON.stringify(filterColumn.filterValue))) {
+        if (!JSON.stringify(row[filterColumn.columnAccessor]).includes(filterColumn.filterValue)) {
           accept = false;
         }
       }
@@ -80,8 +47,7 @@ const filterData = <Row extends { [key: string]: any }>(filterState: FilterColum
 
 const Table = <Row extends { [key: string]: unknown }>({ columns, rows, filters = [] }: TableProps<Row>) => {
   //filter
-  const [filterState] = useState(filters);
-  const filteredData = useMemo(() => filterData(filterState, rows), [filterState, rows]);
+  const filteredData = useMemo(() => filterData(filters, rows), [filters, rows]);
 
   //sort
   const [order, setOrder] = useState('asc' as 'asc' | 'desc');
