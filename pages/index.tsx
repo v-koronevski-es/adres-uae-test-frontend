@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 
 import { getList } from 'lib/api/logger';
 import { Log } from 'lib/types/logger';
@@ -45,7 +46,10 @@ type HomeProps = {
 };
 
 const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
-  const [filtersState, setFiltersState] = useState([] as FilterColumn[]);
+  const router = useRouter();
+  const [filtersState, setFiltersState] = useState(
+    (JSON.parse(router.query.filters as string) || []) as FilterColumn[],
+  );
 
   const handleFilterSubmit = (args: FormData) => {
     const filters = [] as FilterColumn[];
@@ -70,10 +74,10 @@ const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
       });
     }
 
-    if (args.applicationType) {
+    if (args.actionType) {
       filters.push({
-        filterValue: args.applicationType,
-        columnAccessor: 'applicationType',
+        filterValue: args.actionType,
+        columnAccessor: 'actionType',
       });
     }
 

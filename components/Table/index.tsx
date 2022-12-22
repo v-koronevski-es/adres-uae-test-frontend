@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/router';
 
 import { sortData } from 'lib/utils/sort';
 import Head from './Head';
@@ -46,22 +47,46 @@ const filterData = <Row extends { [key: string]: any }>(filterState: FilterColum
 };
 
 const Table = <Row extends { [key: string]: unknown }>({ columns, rows, filters = [] }: TableProps<Row>) => {
+  const router = useRouter();
+
   //filter
   const filteredData = useMemo(() => filterData(filters, rows), [filters, rows]);
 
   //sort
-  const [order, setOrder] = useState('asc' as 'asc' | 'desc');
-  const [orderBy, setOrderBy] = useState('actionType');
+  const [order, setOrder] = useState((router.query.order || 'asc') as 'asc' | 'desc');
+  const [orderBy, setOrderBy] = useState((router.query.orderBy || '') as string);
   const sortedRows = useMemo(() => sortData(order, orderBy, filteredData), [order, orderBy, filteredData]);
 
   // pagination
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(Number(router.query.rowsPerPage) || 10);
+  const [page, setPage] = useState(Number(router.query.page) || 0);
   const [cursor, setCursor] = useState([] as Row[]);
 
   useEffect(() => {
     setCursor(sortedRows.slice(page * rowsPerPage, (page + 1) * rowsPerPage));
   }, [rowsPerPage, page, sortedRows]);
+
+  useEffect(() => {
+    const queryParams = {
+      page: `${page}`,
+      rowsPerPage: `${rowsPerPage}`,
+      filters: JSON.stringify(filters),
+      order,
+      orderBy,
+    };
+    if (JSON.stringify(queryParams) !== JSON.stringify(router.query)) {
+      router.push({
+        pathname: router.pathname,
+        query: {
+          page,
+          rowsPerPage,
+          filters: JSON.stringify(filters),
+          order,
+          orderBy,
+        },
+      });
+    }
+  }, [page, rowsPerPage, filters, order, orderBy, router]);
 
   return (
     <S.Table>
