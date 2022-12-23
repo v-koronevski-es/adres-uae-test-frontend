@@ -114,7 +114,7 @@ const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
       filters.push({
         filterValue: args.fromDate,
         columnAccessor: 'creationTimestamp',
-        moreThen: true,
+        moreThenDate: true,
       });
     }
 
@@ -122,7 +122,7 @@ const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
       filters.push({
         filterValue: args.toDate,
         columnAccessor: 'creationTimestamp',
-        lessThen: true,
+        lessThenDate: true,
       });
     }
 

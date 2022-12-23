@@ -2,8 +2,8 @@ export type FilterColumn = {
   columnAccessor: string;
   filterValue: any;
   isFullMatchFilter?: boolean;
-  lessThen?: boolean;
-  moreThen?: boolean;
+  lessThenDate?: boolean;
+  moreThenDate?: boolean;
 };
 
 export const filterData = <Row extends { [key: string]: any }>(filterState: FilterColumn[], rows: Row[]): Row[] => {
@@ -11,7 +11,17 @@ export const filterData = <Row extends { [key: string]: any }>(filterState: Filt
     let accept = true;
 
     filterState.forEach(filterColumn => {
-      if (filterColumn.isFullMatchFilter) {
+      if (filterColumn.lessThenDate || filterColumn.moreThenDate) {
+        const filterDate = new Date(filterColumn.filterValue);
+        const rowDate = row[filterColumn.columnAccessor] ? new Date(row[filterColumn.columnAccessor]) : null;
+        if (!rowDate || (filterColumn.lessThenDate && rowDate > filterDate)) {
+          accept = false;
+        }
+
+        if (!rowDate || (filterColumn.moreThenDate && rowDate < filterDate)) {
+          accept = false;
+        }
+      } else if (filterColumn.isFullMatchFilter) {
         if (row[filterColumn.columnAccessor] !== filterColumn.filterValue) {
           accept = false;
         }
