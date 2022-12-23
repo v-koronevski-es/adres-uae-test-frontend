@@ -62,7 +62,7 @@ const getDefaultFiltersValue = (filterState: FilterColumn[]) => {
       defaultFilters.logId = filterElement.filterValue;
     }
     if (filterElement.columnAccessor === 'creationTimestamp') {
-      if (filterElement.lessThen) {
+      if (filterElement.lessThenDate) {
         defaultFilters.toDate = filterElement.filterValue;
       } else {
         defaultFilters.fromDate = filterElement.filterValue;
