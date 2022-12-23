@@ -19,6 +19,7 @@ export const Button = styled.button`
   color: #ffffff;
   margin: 0 10px;
   margin-top: -10px;
+  cursor: pointer;
 
   :active {
     opacity: 0.7;
