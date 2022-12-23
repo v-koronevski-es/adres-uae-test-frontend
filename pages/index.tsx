@@ -4,8 +4,9 @@ import { useRouter } from 'next/router';
 
 import { getList } from 'lib/api/logger';
 import { Log } from 'lib/types/logger';
+import { FilterColumn } from 'lib/utils/filter';
 
-import Table, { Column, FilterColumn } from 'components/Table';
+import Table, { Column } from 'components/Table';
 import FiltersForm, { FormData } from 'components/LoggerTableFilters';
 
 const columnsConfig: Column<any>[] = [
@@ -46,7 +47,29 @@ type HomeProps = {
 };
 
 const getDefaultFiltersValue = (filterState: FilterColumn[]) => {
-  return {};
+  const defaultFilters: FormData = {};
+  filterState.forEach(filterElement => {
+    if (filterElement.columnAccessor === 'actionType') {
+      defaultFilters.actionType = filterElement.filterValue;
+    }
+    if (filterElement.columnAccessor === 'applicationId') {
+      defaultFilters.applicationId = filterElement.filterValue;
+    }
+    if (filterElement.columnAccessor === 'applicationType') {
+      defaultFilters.applicationType = filterElement.filterValue;
+    }
+    if (filterElement.columnAccessor === 'logId') {
+      defaultFilters.logId = filterElement.filterValue;
+    }
+    if (filterElement.columnAccessor === 'creationTimestamp') {
+      if (filterElement.lessThen) {
+        defaultFilters.toDate = filterElement.filterValue;
+      } else {
+        defaultFilters.fromDate = filterElement.filterValue;
+      }
+    }
+  });
+  return defaultFilters;
 };
 
 const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
@@ -80,10 +103,26 @@ const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
       });
     }
 
-    if (args.actionType) {
+    if (args.applicationId) {
       filters.push({
-        filterValue: args.actionType,
-        columnAccessor: 'actionType',
+        filterValue: args.applicationId,
+        columnAccessor: 'applicationId',
+      });
+    }
+
+    if (args.fromDate) {
+      filters.push({
+        filterValue: args.fromDate,
+        columnAccessor: 'creationTimestamp',
+        moreThen: true,
+      });
+    }
+
+    if (args.toDate) {
+      filters.push({
+        filterValue: args.toDate,
+        columnAccessor: 'creationTimestamp',
+        lessThen: true,
       });
     }
 
@@ -100,7 +139,7 @@ const Home: NextPage<HomeProps> = ({ data }: HomeProps) => {
   );
 };
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps() {
   const responce = await getList();
 
   return {

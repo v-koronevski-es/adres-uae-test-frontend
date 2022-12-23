@@ -11,4 +11,16 @@ export const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #3d6dEb;
+  border: 0;
+  padding: 5px;
+  width: 100%;
+  border-radius: 5px;
+  color: #ffffff;
+  margin: 0 10px;
+  margin-top: -10px;
+
+  :active {
+    opacity: 0.7;
+  }
 `;

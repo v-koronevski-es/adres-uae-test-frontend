@@ -11,14 +11,14 @@ export const Header = styled.div`
 
 export const ColumnBlock = styled.div`
   padding: 10px;
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 90% 10%;
+  display: flex;
+  flex-direction: row;
 `;
 
 export const OrderButton = styled.div`
   opacity: 0.7;
   cursor: pointer;
+  padding-left: 10px;
 
   :hover {
     opacity: 1;
