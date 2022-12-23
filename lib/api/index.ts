@@ -1,6 +1,6 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
-const baseURL = `https://run.mocky.io/v3`; // TODO: add .env
+const baseURL = `${process.env.NEXT_PUBLIC_BASE_API_URL}/v3`;
 
 export const http = axios.create({
   baseURL,

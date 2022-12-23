@@ -71,8 +71,16 @@ const FiltersForm = ({ onSubmit, defaultValues }: Props): JSX.Element => {
   const {
     handleSubmit,
     register,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm<FormData>({ defaultValues });
+
+  const onClear = () => {
+    const values = getValues();
+    Object.keys(values).forEach((key: any) => setValue(key, null));
+    onSubmit({});
+  };
 
   return (
     <S.FormWrapper onSubmit={handleSubmit(onSubmit)}>
@@ -95,7 +103,7 @@ const FiltersForm = ({ onSubmit, defaultValues }: Props): JSX.Element => {
       <Input register={register} name="toDate" error={errors.toDate} label="To Date" type="date" />
       <Input register={register} name="applicationId" error={errors.applicationId} label="Application ID" type="text" />
       <S.Button type="submit">Search Logger</S.Button>
-      <S.Button onClick={() => onSubmit({})}>Clear</S.Button>
+      <S.Button onClick={onClear}>Clear</S.Button>
     </S.FormWrapper>
   );
 };
